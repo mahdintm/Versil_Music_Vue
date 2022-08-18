@@ -9,6 +9,31 @@
 <script>
 export default {
     name: 'IntroVue',
+    data() {
+        return {
+            WebViewEvents: {
+                introMusic: {
+                    changeVolume: "ClientWEB:introMusic:changeVolume",
+                },
+            },
+        }
+    },
+    unmounted() {
+        if ("alt" in window) {
+            alt.off(this.WebViewEvents.introMusic.changeVolume, this.ChangeVolume);
+        }
+    },
+    mounted() {
+        if ("alt" in window) {
+            alt.on(this.WebViewEvents.introMusic.changeVolume, this.ChangeVolume);
+        }
+        document.getElementById('audio-player').volume = 0.3;
+    },
+    methods: {
+        ChangeVolume(VolumeLevel) {
+            document.getElementById('audio-player').volume = VolumeLevel;
+        }
+    }
 }
 </script>
 
